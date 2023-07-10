@@ -2,6 +2,18 @@ console.log("hellooo");
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import starTexture from "./public/stars.jpg";
+import mercuryTexture from "/mercury.jpg";
+import venusTexture from "/venus.jpg";
+import earthTexture from "/earth.jpg";
+import marsTexture from "/mars.jpg";
+import jupiterTexture from "/jupiter.jpg";
+import saturnTexture from "/saturn.jpg";
+import satRingTexture from "/saturnRing.png";
+import uranusTexture from "/uranus.jpg";
+import plutoTexture from "/pluto.jpg";
+import uraRingTexture from "/uranusRing.png";
+
+import neptuneTexture from "/neptune.jpg";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -28,14 +40,6 @@ scene.background = cubeTextureLoader.load([
   starTexture,
 ]);
 
-//  const textureLoader=new THREE.TextureLoader();
-function animate() {
-  renderer.render(scene, camera);
-  Sun.rotateY(0.004)
-  Mercury.rotateY(0.007)
-}
-renderer.setAnimationLoop(animate);
-
 window.addEventListener("resize", function () {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -43,18 +47,82 @@ window.addEventListener("resize", function () {
 });
 
 const sunGeometry = new THREE.SphereGeometry(25, 50, 50);
-const sunTexture = new THREE.TextureLoader().load('/sun.jpg');
+const sunTexture = new THREE.TextureLoader().load("/sun.jpg");
 const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 const Sun = new THREE.Mesh(sunGeometry, sunMaterial);
 scene.add(Sun);
 
+const textureLoader = new THREE.TextureLoader();
 
-const mercuryGeometry = new THREE.SphereGeometry(10, 50, 50);
-const mercuryTexture = new THREE.TextureLoader().load('/mercury.jpg');
-const mercuryMaterial = new THREE.MeshStandardMaterial({ map: mercuryTexture });
-const Mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
-Sun.add(Mercury);
-Mercury.position.x=50;
+function createPlanet(size, texture, position, ring) {
+  const geo = new THREE.SphereGeometry(size, 50, 50);
+  const mat = new THREE.MeshStandardMaterial({
+    map: textureLoader.load(texture),
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  const Obj = new THREE.Object3D();
+  Obj.add(mesh);
+  if (ring) {
+    const ringGeo = new THREE.RingGeometry(
+      ring.innerRadius,
+      ring.outerRadius,
+      32
+    );
+    const ringMat = new THREE.MeshBasicMaterial({
+      map: textureLoader.load(ring.texture),
+      side: THREE.DoubleSide,
+    });
+    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    Obj.add(ringMesh);
+    ringMesh.position.x = position;
+    ringMesh.rotation.x = -0.5 * Math.PI;
+  }
+  scene.add(Obj);
+  mesh.position.x = position;
+  return { mesh, Obj };
+}
 
-const pointLight=new THREE.PointLight(0xffffff,2,300);
+const Mercury = createPlanet(3.2, mercuryTexture, 28);
+const Venus = createPlanet(5.8, venusTexture, 44);
+const Earth = createPlanet(6, earthTexture, 62);
+const Mars = createPlanet(4, marsTexture, 78);
+const Jupiter = createPlanet(12, jupiterTexture, 100);
+const Saturn = createPlanet(10, saturnTexture, 138, {
+  innerRadius: 10,
+  outerRadius: 20,
+  texture: satRingTexture,
+});
+
+const Uranus = createPlanet(7, uranusTexture, 176, {
+  innerRadius: 7,
+  outerRadius: 12,
+  texture: uraRingTexture,
+});
+const Neptune = createPlanet(7, neptuneTexture, 200);
+const Pluto = createPlanet(2.8, plutoTexture, 216);
+function animate() {
+  renderer.render(scene, camera);
+  Sun.rotateY(0.004);
+  Mercury.mesh.rotateY(0.004);
+  Mercury.Obj.rotateY(0.04);
+  Venus.mesh.rotateY(0.002);
+  Venus.Obj.rotateY(0.015);
+  Earth.mesh.rotateY(0.02);
+  Earth.Obj.rotateY(0.01);
+  Mars.mesh.rotateY(0.018);
+  Mars.Obj.rotateY(0.008);
+  Jupiter.mesh.rotateY(0.04);
+  Jupiter.Obj.rotateY(0.002);
+  Saturn.mesh.rotateY(0.038);
+  Saturn.Obj.rotateY(0.0009);
+  Uranus.mesh.rotateY(0.03);
+  Uranus.Obj.rotateY(0.0004);
+  Neptune.mesh.rotateY(0.032);
+  Neptune.Obj.rotateY(0.0001);
+  Pluto.mesh.rotateY(0.008);
+  Pluto.Obj.rotateY(0.00007);
+}
+renderer.setAnimationLoop(animate);
+
+const pointLight = new THREE.PointLight(0xffffff, 2, 500);
 scene.add(pointLight);

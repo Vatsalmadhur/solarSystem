@@ -1,10 +1,13 @@
 console.log("hellooo");
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import starTexture from "./public/stars.jpg";
+import starTexture from "/stars.jpg";
 import mercuryTexture from "/mercury.jpg";
 import venusTexture from "/venus.jpg";
 import earthTexture from "/earth.jpg";
+import earthMoonTexture from "/moon.jpeg";
+import marsMoonTexture1 from '/phobos.jpeg'
+import marsMoonTexture2 from '/demios.jpeg'
 import marsTexture from "/mars.jpg";
 import jupiterTexture from "/jupiter.jpg";
 import saturnTexture from "/saturn.jpg";
@@ -82,6 +85,18 @@ function createPlanet(size, texture, position, ring) {
   return { mesh, Obj };
 }
 
+function createMoon(planet,size,texture,position){
+  const geo = new THREE.SphereGeometry(size, 50, 50);
+  const mat = new THREE.MeshStandardMaterial({
+    map: textureLoader.load(texture),
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.x=position;
+planet.mesh.add(mesh)
+return {mesh}
+
+}
+
 const Mercury = createPlanet(3.2, mercuryTexture, 28);
 const Venus = createPlanet(5.8, venusTexture, 44);
 const Earth = createPlanet(6, earthTexture, 62);
@@ -100,6 +115,11 @@ const Uranus = createPlanet(7, uranusTexture, 176, {
 });
 const Neptune = createPlanet(7, neptuneTexture, 200);
 const Pluto = createPlanet(2.8, plutoTexture, 216);
+
+const earthMoon=createMoon(Earth,1.5,earthMoonTexture,15);
+const marsMoon1=createMoon(Mars,1.3,marsMoonTexture1,10);
+// const marsMoon2=createMoon(Mars,1.5,marsMoonTexture2,10);
+
 function animate() {
   renderer.render(scene, camera);
   Sun.rotateY(0.004);
@@ -109,6 +129,7 @@ function animate() {
   Venus.Obj.rotateY(0.015);
   Earth.mesh.rotateY(0.02);
   Earth.Obj.rotateY(0.01);
+  earthMoon.mesh.rotateY(0.01);
   Mars.mesh.rotateY(0.018);
   Mars.Obj.rotateY(0.008);
   Jupiter.mesh.rotateY(0.04);

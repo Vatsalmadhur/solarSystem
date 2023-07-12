@@ -1,3 +1,18 @@
 body{margin: 0;
 padding: 0;
 box-sizing: border-box;}
+
+#app{
+    font-size: 50px;
+    position: absolute;
+    color: rgb(207, 207, 207);
+    padding-top: 10px;
+    padding-left: 10px;
+}
+.subhead{
+    font-size: 20px;
+    /* font-style: italic; */
+    padding-left: 10px;
+    padding-top: 0;
+    margin: 0;
+}

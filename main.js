@@ -1,22 +1,21 @@
 console.log("hellooo");
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import starTexture from "/stars.jpg";
-import mercuryTexture from "/mercury.jpg";
-import venusTexture from "/venus.jpg";
-import earthTexture from "/earth.jpg";
+import starTexture from "/stars.jpeg";
+import mercuryTexture from "/mercury.jpeg";
+import venusTexture from "/venus.jpeg";
+import earthTexture from "/earth.jpeg";
 import earthMoonTexture from "/moon.jpeg";
 import marsMoonTexture1 from '/phobos.jpeg'
 import marsMoonTexture2 from '/demios.jpeg'
-import marsTexture from "/mars.jpg";
-import jupiterTexture from "/jupiter.jpg";
-import saturnTexture from "/saturn.jpg";
+import marsTexture from "/mars.jpeg";
+import jupiterTexture from "/jupiter.jpeg";
+import saturnTexture from "/saturn.jpeg";
 import satRingTexture from "/saturnRing.png";
-import uranusTexture from "/uranus.jpg";
+import uranusTexture from "/uranus.jpeg";
 import plutoTexture from "/pluto.jpg";
 import uraRingTexture from "/uranusRing.png";
-
-import neptuneTexture from "/neptune.jpg";
+import neptuneTexture from "/neptune.jpeg";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -50,7 +49,7 @@ window.addEventListener("resize", function () {
 });
 
 const sunGeometry = new THREE.SphereGeometry(25, 50, 50);
-const sunTexture = new THREE.TextureLoader().load("/sun.jpg");
+const sunTexture = new THREE.TextureLoader().load("/sun.jpeg");
 const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 const Sun = new THREE.Mesh(sunGeometry, sunMaterial);
 scene.add(Sun);

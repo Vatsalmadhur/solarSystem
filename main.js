@@ -9,7 +9,7 @@ import earthMoonTexture from "/moon.jpeg";
 import marsMoonTexture1 from '/phobos.jpeg'
 import marsMoonTexture2 from '/demios.jpeg'
 import marsTexture from "/mars.jpeg";
-import jupiterTexture from "/jupiter.jpeg";
+import jupiterTexture from "/jupiter.jpg";
 import saturnTexture from "/saturn.jpeg";
 import satRingTexture from "/saturnRing.png";
 import uranusTexture from "/uranus.jpeg";
@@ -49,7 +49,7 @@ window.addEventListener("resize", function () {
 });
 
 const sunGeometry = new THREE.SphereGeometry(25, 50, 50);
-const sunTexture = new THREE.TextureLoader().load("/sun.jpeg");
+const sunTexture = new THREE.TextureLoader().load("/sun.svg");
 const sunMaterial = new THREE.MeshBasicMaterial({ map: sunTexture });
 const Sun = new THREE.Mesh(sunGeometry, sunMaterial);
 scene.add(Sun);
